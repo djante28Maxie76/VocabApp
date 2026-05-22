@@ -1,1 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Répertoire de Vocabulaire</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:#f5f4f0;color:#1a1a18;min-height:100vh}
+  .app{max-width:720px;margin:0 auto;padding:1.5rem 1rem 4rem}
+  h1{font-size:22px;font-weight:500;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+  h1 svg{opacity:0.6}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+  .tab{padding:7px 16px;border-radius:20px;border:1px solid #d0cfc9;background:#fff;cursor:pointer;font-size:13px;color:#666;transition:all 0.15s}
+  .tab.active{background:#1a1a18;color:#f5f4f0;border-color:#1a1a18}
+  .tab-add{padding:7px 14px;border-radius:20px;border:1px dashed #c0bfb9;background:transparent;cursor:pointer;font-size:13px;color:#888}
+  .tab-add:hover{border-color:#888;color:#444}
+  .badge{font-size:11px;background:rgba(0,0,0,0.1);border-radius:10px;padding:1px 6px;margin-left:4px}
+  .tab.active .badge{background:rgba(255,255,255,0.2)}
+  .toolbar{display:flex;gap:8px;margin-bottom:1rem;align-items:center}
+  input[type=text],textarea{width:100%;padding:9px 12px;border-radius:8px;border:1px solid #d0cfc9;background:#fff;font-size:14px;color:#1a1a18;font-family:inherit}
+  input[type=text]:focus,textarea:focus{outline:none;border-color:#888}
+  .search-wrap{flex:1;position:relative}
+  .search-wrap input{padding-left:36px}
+  .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none}
+  .btn{padding:8px 16px;border-radius:8px;border:1px solid #d0cfc9;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#1a1a18;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{background:#eeeee8}
+  .btn.primary{background:#1a1a18;color:#f5f4f0;border-color:#1a1a18}
+  .btn.primary:hover{background:#333}
+  .btn.danger{color:#c0392b;border-color:#f5c6c6}
+  .btn.danger:hover{background:#fff0f0}
+  .add-panel{background:#fff;border-radius:12px;padding:1.25rem;margin-bottom:1rem;border:1px solid #d0cfc9}
+  .add-panel h3{font-size:14px;font-weight:500;margin-bottom:12px;color:#444}
+  .field{margin-bottom:10px}
+  .field label{display:block;font-size:12px;color:#888;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
+  .field textarea{resize:vertical;min-height:64px}
+  .form-actions{display:flex;gap:8px;margin-top:12px}
+  .letter-nav{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:1rem}
+  .lbtn{width:30px;height:30px;border-radius:6px;border:1px solid transparent;background:transparent;cursor:pointer;font-size:12px;color:#888;display:flex;align-items:center;justify-content:center;font-weight:500}
+  .lbtn:hover{background:#fff;border-color:#d0cfc9}
+  .lbtn.has{color:#1a1a18;background:#eeeee8}
+  .lbtn.active{background:#1a1a18;color:#f5f4f0;border-color:#1a1a18}
+  .section{margin-bottom:1.25rem}
+  .sec-letter{font-size:12px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.1em;padding:4px 0 6px;border-bottom:1px solid #e0dfd9;margin-bottom:6px}
+  .card{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px;border-radius:10px;border:1px solid #e0dfd9;background:#fff;margin-bottom:6px;gap:8px}
+  .card:hover{border-color:#c0bfb9}
+  .card-body{flex:1;min-width:0}
+  .word{font-size:15px;font-weight:500;color:#1a1a18}
+  .def{font-size:13px;color:#555;margin-top:3px;line-height:1.5}
+  .ex{font-size:13px;color:#888;font-style:italic;margin-top:2px}
+  .card-actions{flex-shrink:0;display:flex;gap:4px}
+  .icon-btn{width:30px;height:30px;border:none;background:transparent;cursor:pointer;color:#aaa;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .icon-btn:hover{background:#f5f4f0;color:#555}
+  .empty{text-align:center;padding:3rem;color:#aaa}
+  .empty .icon{font-size:36px;margin-bottom:8px}
+  .modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:100}
+  .modal{background:#fff;border-radius:14px;padding:1.5rem;width:90%;max-width:360px}
+  .modal h3{font-size:16px;font-weight:500;margin-bottom:1rem}
+  .modal-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+  .export-bar{background:#fff;border-radius:10px;padding:10px 14px;margin-bottom:1rem;border:1px solid #d0cfc9;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .export-bar span{font-size:13px;color:#666}
+
+  @media(max-width:480px){
+    .app{padding:1rem 0.75rem 4rem}
+    h1{font-size:19px}
+    .tab{padding:6px 12px;font-size:12px}
+    .card{padding:10px 12px}
+    .letter-nav{gap:2px}
+    .lbtn{width:26px;height:26px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    Mon répertoire de vocabulaire
+  </h1>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
+
+<div id="modal-lang" class="modal-bg" style="display:none">
+  <div class="modal">
+    <h3>Ajouter une langue</h3>
+    <div class="field"><label>Nom</label><input type="text" id="ml-name" placeholder="ex: Deutsch"></div>
+    <div class="field"><label>Drapeau / icône</label><input type="text" id="ml-flag" placeholder="ex: 🇩🇪" style="width:80px"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeLangModal()">Annuler</button>
+      <button class="btn primary" onclick="addLang()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal-edit" class="modal-bg" style="display:none">
+  <div class="modal">
+    <h3>Modifier le mot</h3>
+    <div class="field"><label>Mot / expression</label><input type="text" id="edit-word"></div>
+    <div class="field"><label>Définition</label><textarea id="edit-def"></textarea></div>
+    <div class="field"><label>Exemple (optionnel)</label><input type="text" id="edit-ex"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeEditModal()">Annuler</button>
+      <button class="btn primary" onclick="saveEdit()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LS_LANGS='voc_langs2';
+const LS_WORDS='voc_words2';
+let langs=JSON.parse(localStorage.getItem(LS_LANGS)||'null')||[
+  {id:'fr',label:'Français',flag:'🇫🇷'},
+  {id:'en',label:'English',flag:'🇬🇧'},
+  {id:'es',label:'Español',flag:'🇪🇸'}
+];
+let words=JSON.parse(localStorage.getItem(LS_WORDS)||'null')||{
+  fr:[
+    {word:'Agilité',def:'Capacité à s\'adapter rapidement à des changements.',ex:'L\'agilité est essentielle en entreprise.'},
+    {word:'Bienveillance',def:'Disposition à vouloir le bien des autres.',ex:''}
+  ],
+  en:[
+    {word:'Assertive',def:'Confident and direct in expressing oneself.',ex:'Be assertive in negotiations.'}
+  ],
+  es:[
+    {word:'Resiliencia',def:'Capacidad de recuperarse ante adversidades.',ex:'La resiliencia es clave para el éxito.'}
+  ]
+};
+let cur=langs[0].id;
+let filterL=null;
+let searchQ='';
+let showAdd=false;
+let editIdx=-1;
+
+function save(){
+  localStorage.setItem(LS_LANGS,JSON.stringify(langs));
+  localStorage.setItem(LS_WORDS,JSON.stringify(words));
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function render(){
+  renderTabs();
+  renderMain();
+}
+
+function renderTabs(){
+  const t=document.getElementById('tabs');
+  t.innerHTML='';
+  langs.forEach(l=>{
+    const b=document.createElement('button');
+    b.className='tab'+(cur===l.id?' active':'');
+    const c=(words[l.id]||[]).length;
+    b.innerHTML=l.flag+' '+esc(l.label)+'<span class="badge">'+c+'</span>';
+    b.onclick=()=>{cur=l.id;filterL=null;searchQ='';showAdd=false;render()};
+    t.appendChild(b);
+  });
+  const a=document.createElement('button');
+  a.className='tab-add';
+  a.innerHTML='+ Langue';
+  a.onclick=()=>document.getElementById('modal-lang').style.display='flex';
+  t.appendChild(a);
+}
+
+function renderMain(){
+  const m=document.getElementById('main');
+  const wlist=words[cur]||[];
+  let html='';
+
+  html+=`<div class="export-bar">
+    <span>Données sauvegardées automatiquement dans votre navigateur</span>
+    <div style="display:flex;gap:6px">
+      <button class="btn" onclick="exportJSON()">⬇ Exporter</button>
+      <label class="btn" style="cursor:pointer">⬆ Importer<input type="file" accept=".json" onchange="importJSON(event)" style="display:none"></label>
+    </div>
+  </div>`;
+
+  html+=`<div class="toolbar">
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Rechercher…" value="${esc(searchQ)}" oninput="searchQ=this.value;filterL=null;renderMain()">
+    </div>
+    <button class="btn primary" onclick="showAdd=!showAdd;renderMain()">
+      ${showAdd?'✕ Fermer':'+ Ajouter'}
+    </button>
+  </div>`;
+
+  if(showAdd){
+    html+=`<div class="add-panel">
+      <h3>Nouveau mot — ${esc(langs.find(l=>l.id===cur)?.label||'')}</h3>
+      <div class="field"><label>Mot / expression</label><input type="text" id="nw" placeholder="ex: Empathie"></div>
+      <div class="field"><label>Définition / traduction</label><textarea id="nd" placeholder="Définition, traduction, explication…"></textarea></div>
+      <div class="field"><label>Exemple d'usage (optionnel)</label><input type="text" id="ne" placeholder="ex: L'empathie favorise la coopération."></div>
+      <div class="form-actions">
+        <button class="btn primary" onclick="addWord()">Enregistrer</button>
+        <button class="btn" onclick="showAdd=false;renderMain()">Annuler</button>
+      </div>
+    </div>`;
+  }
+
+  const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  html+='<div class="letter-nav">';
+  letters.forEach(l=>{
+    const has=wlist.some(w=>(w.word||'')[0]?.toUpperCase()===l);
+    const act=filterL===l;
+    html+=`<button class="lbtn${has?' has':''}${act?' active':''}" onclick="filterL=filterL==='${l}'?null:'${l}';searchQ='';renderMain()">${l}</button>`;
+  });
+  html+='</div>';
+
+  let filtered=[...wlist];
+  if(searchQ){
+    const q=searchQ.toLowerCase();
+    filtered=filtered.filter(w=>(w.word||'').toLowerCase().includes(q)||(w.def||'').toLowerCase().includes(q));
+  } else if(filterL){
+    filtered=filtered.filter(w=>(w.word||'')[0]?.toUpperCase()===filterL);
+  }
+
+  if(!filtered.length){
+    html+='<div class="empty"><div class="icon">📖</div>Aucun mot ici pour l\'instant.<br><small>Cliquez sur "+ Ajouter" pour commencer.</small></div>';
+  } else {
+    const sorted=[...filtered].sort((a,b)=>(a.word||'').localeCompare(b.word||'','fr'));
+    const grouped={};
+    sorted.forEach(w=>{
+      const l=(w.word||'?')[0].toUpperCase();
+      if(!grouped[l])grouped[l]=[];
+      grouped[l].push(w);
+    });
+    Object.keys(grouped).sort().forEach(letter=>{
+      html+=`<div class="section"><div class="sec-letter">${letter}</div>`;
+      grouped[letter].forEach(w=>{
+        const realIdx=wlist.indexOf(w);
+        html+=`<div class="card">
+          <div class="card-body">
+            <div class="word">${esc(w.word)}</div>
+            <div class="def">${esc(w.def)}</div>
+            ${w.ex?`<div class="ex">${esc(w.ex)}</div>`:''}
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" title="Modifier" onclick="openEdit(${realIdx})">✏️</button>
+            <button class="icon-btn" title="Supprimer" onclick="deleteWord(${realIdx})">🗑</button>
+          </div>
+        </div>`;
+      });
+      html+='</div>';
+    });
+  }
+
+  m.innerHTML=html;
+}
+
+function addWord(){
+  const w=(document.getElementById('nw').value||'').trim();
+  const d=(document.getElementById('nd').value||'').trim();
+  const e=(document.getElementById('ne').value||'').trim();
+  if(!w||!d){alert('Merci de renseigner le mot et la définition.');return;}
+  if(!words[cur])words[cur]=[];
+  words[cur].push({word:w,def:d,ex:e});
+  save();showAdd=false;render();
+}
+
+function deleteWord(i){
+  if(!confirm('Supprimer "'+((words[cur]||[])[i]||{}).word+'" ?'))return;
+  words[cur].splice(i,1);save();render();
+}
+
+function openEdit(i){
+  editIdx=i;
+  const w=(words[cur]||[])[i];
+  document.getElementById('edit-word').value=w.word||'';
+  document.getElementById('edit-def').value=w.def||'';
+  document.getElementById('edit-ex').value=w.ex||'';
+  document.getElementById('modal-edit').style.display='flex';
+}
+function closeEditModal(){document.getElementById('modal-edit').style.display='none';editIdx=-1;}
+function saveEdit(){
+  const w=document.getElementById('edit-word').value.trim();
+  const d=document.getElementById('edit-def').value.trim();
+  const e=document.getElementById('edit-ex').value.trim();
+  if(!w||!d){alert('Mot et définition requis.');return;}
+  words[cur][editIdx]={word:w,def:d,ex:e};
+  save();closeEditModal();render();
+}
+
+function addLang(){
+  const label=(document.getElementById('ml-name').value||'').trim();
+  const flag=(document.getElementById('ml-flag').value||'').trim()||'🌐';
+  if(!label){alert('Veuillez entrer un nom de langue.');return;}
+  const id=label.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z_]/g,'');
+  if(langs.find(l=>l.id===id)){alert('Cette langue existe déjà.');return;}
+  langs.push({id,label,flag});
+  words[id]=[];
+  save();closeLangModal();cur=id;render();
+}
+function closeLangModal(){
+  document.getElementById('modal-lang').style.display='none';
+  document.getElementById('ml-name').value='';
+  document.getElementById('ml-flag').value='';
+}
+
+function exportJSON(){
+  const data={langs,words};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='repertoire-vocabulaire.json';
+  a.click();
+}
+function importJSON(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(!data.langs||!data.words){alert('Fichier invalide.');return;}
+      if(!confirm('Remplacer toutes vos données actuelles par celles du fichier ?'))return;
+      langs=data.langs;words=data.words;cur=langs[0].id;
+      save();render();
+    }catch{alert('Erreur de lecture du fichier.');}
+  };
+  r.readAsText(file);
+}
+
+window.onclick=function(e){
+  if(e.target===document.getElementById('modal-lang'))closeLangModal();
+  if(e.target===document.getElementById('modal-edit'))closeEditModal();
+};
+
+render();
+</script>
+</body>
+</html>
 
