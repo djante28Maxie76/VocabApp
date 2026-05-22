@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#f5f4f0">
+<title>Répertoire Vocabulaire</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#f5f4f0;--card:#fff;--border:#e0dfd9;--border2:#d0cfc9;--text:#1a1a18;--text2:#555;--text3:#999;--accent:#1a1a18;--accent-fg:#f5f4f0;--btn:#fff;--panel:#fff;--radius:12px;--input-bg:#fff}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--card:#2a2a28;--border:#3a3a38;--border2:#4a4a48;--text:#f0efe8;--text2:#aaa;--text3:#666;--accent:#f0efe8;--accent-fg:#1a1a18;--btn:#2a2a28;--panel:#252523;--input-bg:#2a2a28}}
+.app{padding:0 0 80px}
+/* Header */
+.header{background:var(--card);border-bottom:1px solid var(--border);padding:14px 16px 10px;position:sticky;top:0;z-index:50}
+.header-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.header-top h1{font-size:18px;font-weight:500;flex:1}
+.header-top svg{opacity:0.5}
+/* Tabs */
+.tabs-wrap{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--btn);cursor:pointer;font-size:13px;color:var(--text2);white-space:nowrap;flex-shrink:0}
+.tab.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.tab-add{padding:6px 12px;border-radius:20px;border:1px dashed var(--border2);background:transparent;cursor:pointer;font-size:13px;color:var(--text3);white-space:nowrap;flex-shrink:0}
+.badge{font-size:11px;opacity:0.6;margin-left:3px}
+/* Content */
+.content{padding:12px 14px}
+/* Search + Add */
+.toolbar{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.search-wrap{flex:1;position:relative}
+.search-wrap input{width:100%;padding:10px 12px 10px 38px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);font-size:15px;color:var(--text);-webkit-appearance:none}
+.search-wrap input:focus{outline:none;border-color:var(--border2)}
+.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:0.35;pointer-events:none}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--btn);cursor:pointer;font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+/* Add panel */
+.add-panel{background:var(--panel);border-radius:var(--radius);padding:14px;margin-bottom:12px;border:1px solid var(--border)}
+.add-panel h3{font-size:14px;font-weight:500;margin-bottom:10px;color:var(--text2)}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.field input,.field textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);font-size:15px;color:var(--text);font-family:inherit;-webkit-appearance:none}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--border2)}
+.field textarea{resize:none;height:72px;line-height:1.5}
+.form-row{display:flex;gap:8px;margin-top:10px}
+/* Letter nav */
+.letter-nav{display:flex;gap:3px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.letter-nav::-webkit-scrollbar{display:none}
+.lbtn{min-width:32px;height:32px;border-radius:7px;border:1px solid transparent;background:transparent;cursor:pointer;font-size:12px;color:var(--text3);display:flex;align-items:center;justify-content:center;font-weight:500;flex-shrink:0}
+.lbtn.has{color:var(--text);background:var(--card);border-color:var(--border)}
+.lbtn.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+/* Sections */
+.sec-letter{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:8px 0 6px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.card{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);margin-bottom:6px;gap:10px;cursor:pointer;transition:border-color .15s}
+.card:active{border-color:var(--border2);background:var(--panel)}
+.word{font-size:16px;font-weight:500;color:var(--text)}
+.def{font-size:13px;color:var(--text2);margin-top:3px;line-height:1.5}
+.ex{font-size:13px;color:var(--text3);font-style:italic;margin-top:2px}
+.card-actions{flex-shrink:0;display:flex;gap:2px}
+.icon-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;color:var(--text3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.icon-btn:active{background:var(--border)}
+/* Empty */
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3)}
+.empty-icon{font-size:44px;margin-bottom:12px}
+/* Modals */
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-height:85vh;overflow-y:auto}
+.sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 16px}
+.sheet h3{font-size:17px;font-weight:500;margin-bottom:16px}
+.sheet-actions{display:flex;gap:8px;margin-top:14px}
+.sheet-actions .btn{flex:1;justify-content:center}
+/* Stats bar */
+.stats{display:flex;gap:8px;margin-bottom:12px}
+.stat-chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:4px}
+.stat-chip strong{color:var(--text);font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <h1>Mon Vocabulaire</h1>
+    </div>
+    <div class="tabs-wrap" id="tabs"></div>
+  </div>
+  <div class="content" id="content"></div>
+</div>
+
+<!-- Modal ajouter langue -->
+<div class="overlay" id="ov-lang" style="display:none" onclick="if(event.target===this)closeOv('lang')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3>Ajouter une langue</h3>
+    <div class="field"><label>Nom de la langue</label><input type="text" id="ml-name" placeholder="ex: Deutsch, Italiano…"></div>
+    <div class="field"><label>Drapeau 🏳️</label><input type="text" id="ml-flag" placeholder="ex: 🇩🇪" style="max-width:80px"></div>
+    <div class="sheet-actions">
+      <button class="btn" onclick="closeOv('lang')">Annuler</button>
+      <button class="btn primary" onclick="addLang()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal modifier mot -->
+<div class="overlay" id="ov-edit" style="display:none" onclick="if(event.target===this)closeOv('edit')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h3>Modifier</h3>
+    <div class="field"><label>Mot / expression</label><input type="text" id="ew"></div>
+    <div class="field"><label>Définition</label><textarea id="ed"></textarea></div>
+    <div class="field"><label>Exemple (optionnel)</label><input type="text" id="ee"></div>
+    <div class="sheet-actions">
+      <button class="btn" onclick="closeOv('edit')">Annuler</button>
+      <button class="btn primary" onclick="saveEdit()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LS_L='voc_langs3', LS_W='voc_words3';
+let langs=JSON.parse(localStorage.getItem(LS_L)||'null')||[
+  {id:'fr',label:'Français',flag:'🇫🇷'},
+  {id:'en',label:'English',flag:'🇬🇧'},
+  {id:'es',label:'Español',flag:'🇪🇸'}
+];
+let words=JSON.parse(localStorage.getItem(LS_W)||'null')||{
+  fr:[{word:'Agilité',def:'Capacité à s\'adapter rapidement à des changements.',ex:'L\'agilité est essentielle en entreprise.'},{word:'Bienveillance',def:'Disposition à vouloir le bien des autres.',ex:''}],
+  en:[{word:'Assertive',def:'Confident and direct in expressing oneself.',ex:'Be assertive in negotiations.'}],
+  es:[{word:'Resiliencia',def:'Capacidad de recuperarse ante adversidades.',ex:'La resiliencia es clave para el éxito.'}]
+};
+let cur=langs[0].id, filterL=null, searchQ='', showAdd=false, editIdx=-1;
+
+function save(){localStorage.setItem(LS_L,JSON.stringify(langs));localStorage.setItem(LS_W,JSON.stringify(words))}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function openOv(id){document.getElementById('ov-'+id).style.display='flex'}
+function closeOv(id){document.getElementById('ov-'+id).style.display='none'}
+
+function render(){renderTabs();renderContent()}
+
+function renderTabs(){
+  const t=document.getElementById('tabs');
+  t.innerHTML='';
+  langs.forEach(l=>{
+    const b=document.createElement('button');
+    b.className='tab'+(cur===l.id?' active':'');
+    const c=(words[l.id]||[]).length;
+    b.innerHTML=l.flag+' '+esc(l.label)+'<span class="badge">('+c+')</span>';
+    b.onclick=()=>{cur=l.id;filterL=null;searchQ='';showAdd=false;render()};
+    t.appendChild(b);
+  });
+  const a=document.createElement('button');
+  a.className='tab-add';a.textContent='+ Langue';
+  a.onclick=()=>openOv('lang');
+  t.appendChild(a);
+}
+
+function renderContent(){
+  const wlist=words[cur]||[];
+  const curLang=langs.find(l=>l.id===cur);
+  let h='';
+
+  // Stats
+  h+=`<div class="stats">
+    <div class="stat-chip"><strong>${wlist.length}</strong> mot${wlist.length!==1?'s':''}</div>
+    <div class="stat-chip">${curLang?.flag||''} ${esc(curLang?.label||'')}</div>
+  </div>`;
+
+  // Toolbar
+  h+=`<div class="toolbar">
+    <div class="search-wrap">
+      <svg class="search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Rechercher…" value="${esc(searchQ)}" oninput="searchQ=this.value;filterL=null;renderContent()" inputmode="search">
+    </div>
+    <button class="btn primary" onclick="showAdd=!showAdd;renderContent()">${showAdd?'✕':'+'}</button>
+  </div>`;
+
+  // Add form
+  if(showAdd){
+    h+=`<div class="add-panel">
+      <h3>Nouveau mot — ${esc(curLang?.label||'')}</h3>
+      <div class="field"><label>Mot / expression</label><input type="text" id="nw" placeholder="ex: Empathie" autocorrect="off"></div>
+      <div class="field"><label>Définition / traduction</label><textarea id="nd" placeholder="Définition, traduction, explication…"></textarea></div>
+      <div class="field"><label>Exemple (optionnel)</label><input type="text" id="ne" placeholder="ex: L'empathie favorise la coopération."></div>
+      <div class="form-row">
+        <button class="btn primary" style="flex:1;justify-content:center" onclick="addWord()">✓ Enregistrer</button>
+        <button class="btn" onclick="showAdd=false;renderContent()">Annuler</button>
+      </div>
+    </div>`;
+  }
+
+  // Letter nav
+  const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  h+='<div class="letter-nav">';
+  letters.forEach(l=>{
+    const has=wlist.some(w=>(w.word||'')[0]?.toUpperCase()===l);
+    if(!has)return;
+    const act=filterL===l;
+    h+=`<button class="lbtn has${act?' active':''}" onclick="filterL=filterL==='${l}'?null:'${l}';searchQ='';renderContent()">${l}</button>`;
+  });
+  h+='</div>';
+
+  // Filter
+  let filtered=[...wlist];
+  if(searchQ){const q=searchQ.toLowerCase();filtered=filtered.filter(w=>(w.word||'').toLowerCase().includes(q)||(w.def||'').toLowerCase().includes(q));}
+  else if(filterL){filtered=filtered.filter(w=>(w.word||'')[0]?.toUpperCase()===filterL);}
+
+  if(!filtered.length){
+    h+='<div class="empty"><div class="empty-icon">📖</div><div>Aucun mot ici pour l\'instant</div><div style="font-size:13px;margin-top:6px">Appuyez sur + pour ajouter votre premier mot</div></div>';
+  } else {
+    const sorted=[...filtered].sort((a,b)=>(a.word||'').localeCompare(b.word||'','fr'));
+    const grouped={};
+    sorted.forEach(w=>{const l=(w.word||'?')[0].toUpperCase();if(!grouped[l])grouped[l]=[];grouped[l].push(w)});
+    Object.keys(grouped).sort().forEach(letter=>{
+      h+=`<div><div class="sec-letter">${letter}</div>`;
+      grouped[letter].forEach(w=>{
+        const ri=wlist.indexOf(w);
+        h+=`<div class="card">
+          <div style="flex:1;min-width:0">
+            <div class="word">${esc(w.word)}</div>
+            <div class="def">${esc(w.def)}</div>
+            ${w.ex?`<div class="ex">${esc(w.ex)}</div>`:''}
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" onclick="openEdit(${ri})">✏️</button>
+            <button class="icon-btn" onclick="delWord(${ri})">🗑️</button>
+          </div>
+        </div>`;
+      });
+      h+='</div>';
+    });
+  }
+
+  document.getElementById('content').innerHTML=h;
+}
+
+function addWord(){
+  const w=(document.getElementById('nw')?.value||'').trim();
+  const d=(document.getElementById('nd')?.value||'').trim();
+  const e=(document.getElementById('ne')?.value||'').trim();
+  if(!w||!d){alert('Merci de renseigner le mot et la définition.');return;}
+  if(!words[cur])words[cur]=[];
+  words[cur].push({word:w,def:d,ex:e});
+  save();showAdd=false;render();
+}
+
+function delWord(i){
+  if(!confirm('Supprimer "'+((words[cur]||[])[i]||{}).word+'" ?'))return;
+  words[cur].splice(i,1);save();render();
+}
+
+function openEdit(i){
+  editIdx=i;
+  const w=(words[cur]||[])[i];
+  document.getElementById('ew').value=w.word||'';
+  document.getElementById('ed').value=w.def||'';
+  document.getElementById('ee').value=w.ex||'';
+  openOv('edit');
+}
+
+function saveEdit(){
+  const w=document.getElementById('ew').value.trim();
+  const d=document.getElementById('ed').value.trim();
+  const e=document.getElementById('ee').value.trim();
+  if(!w||!d){alert('Mot et définition requis.');return;}
+  words[cur][editIdx]={word:w,def:d,ex:e};
+  save();closeOv('edit');render();
+}
+
+function addLang(){
+  const label=(document.getElementById('ml-name').value||'').trim();
+  const flag=(document.getElementById('ml-flag').value||'').trim()||'🌐';
+  if(!label){alert('Veuillez entrer un nom de langue.');return;}
+  const id=label.toLowerCase().replace(/[^a-zA-ZÀ-ÿ]/g,'_').replace(/_{2,}/g,'_');
+  if(langs.find(l=>l.id===id)){alert('Cette langue existe déjà.');return;}
+  langs.push({id,label,flag});words[id]=[];
+  save();closeOv('lang');
+  document.getElementById('ml-name').value='';document.getElementById('ml-flag').value='';
+  cur=id;render();
+}
+
+render();
+</script>
+</body>
+</html>
